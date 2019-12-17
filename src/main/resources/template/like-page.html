@@ -20,21 +20,23 @@
 <div class="col-4 offset-4">
     <div class="card">
         <div class="card-body">
-            <div class="row">
-                <div class="col-12 col-lg-12 col-md-12 text-center">
-                    <img src=${imageLink} alt="" class="mx-auto rounded-circle img-fluid">
-                    <h3 class="mb-0 text-truncated">${userName}</h3>
-                    <br>
-                </div>
+            <div class ="row">
+            <div class="col-12 col-lg-12 col-md-12 text-center">
+                <img src=${userlink} alt="" class="mx-auto rounded-circle img-fluid">
+                <h3 class="mb-0 text-truncated">${username}</h3>
+                <br>
+            </div>
 
                 <div class="col-12 col-lg-6">
                     <form method="post">
                     <button type="submit" name="button1" value="no" class="btn btn-outline-danger btn-block"><span class="fa fa-times"></span> Dislike</button>
+                    <input type="text" hidden="true" name="id" value="${userid}">
                     </form>
                 </div>
                 <div class="col-12 col-lg-6">
                     <form method="post">
                     <button type="submit" name="button2" value="yes" class="btn btn-outline-success btn-block"><span class="fa fa-heart"></span> Like</button>
+                    <input type="text" hidden="true" name="id" value="${userid}">
                     </form>
                 </div>
                 <!--/col-->

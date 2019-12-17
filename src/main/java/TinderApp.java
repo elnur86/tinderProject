@@ -13,6 +13,8 @@ public class TinderApp {
     handler.addServlet((new ServletHolder(new StaticContentServlet("content"))), "/static/*");
     handler.addServlet((new ServletHolder(new LoginServlet(te))), "/login/*");
     handler.addServlet((new ServletHolder(new UserServlet(te))), "/like/*");
+    handler.addServlet((new ServletHolder(new ChatServlet(te))), "/chat/*");
+    handler.addServlet((new ServletHolder(new PeopleServlet(te))), "/people/*");
     handler.addServlet(new ServletHolder(new RedirectServlet("/like/*")), "/*");
 
     Server server = new Server(9001);

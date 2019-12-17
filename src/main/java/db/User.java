@@ -5,21 +5,29 @@ public class User {
   private String userName;
   private String userEmail;
   private String userImageLink;
+  private String userAction;
 
 
 
-  public User(int id, String name, String userEmail, String link) {
+  public User(int id, String name, String link, String action) {
     this.id = id;
     this.userName = name;
-    this.userEmail = userEmail;
     this.userImageLink = link;
+    this.userAction=action;
   }
-
 
   public User(String name, String link) {
     this.userName = name;
     this.userImageLink = link;
   }
+
+  public User(int id, String action) {
+    this.id = id;
+    this.userAction = action;
+  }
+
+
+
   public int getId() {
     return id;
   }
@@ -28,11 +36,18 @@ public class User {
     return userName;
   }
 
+  public String getUserAction() { return userAction; }
+
   public String getUserEmail() {
     return userEmail;
   }
 
   public String getUserImageLink() {
     return userImageLink;
+  }
+
+  @Override
+  public String toString() {
+    return this.id+" "+ this.userName+" "+ this.userImageLink+" "+this.userAction+"\n";
   }
 }

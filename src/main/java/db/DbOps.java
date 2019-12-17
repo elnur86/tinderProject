@@ -86,6 +86,68 @@ public class DbOps {
     return data;
   }
 
+    public static List<User> getUserIdAction() {
+      try {
+          Connection conn = DbConn.get();
+          String SQLS = "select userid, useraction from tinder order by userid";
+          PreparedStatement stmt = conn.prepareStatement(SQLS);
+          ResultSet outcome = stmt.executeQuery();
+          ArrayList<User> data = new ArrayList<>();
+          while (outcome.next()) {
+              int id = outcome.getInt("userID");
+              String action = outcome.getString("useraction");
+              User user = new User(id, action);
+              data.add(user);
+          }
+          return data;
+      }
+      catch (SQLException e) {
+          throw new RuntimeException("Smth went wrong getUser(id)", e);
+      }
+    }
+
+    public static List<User> getUserWithNoActions() {
+      try {
+          Connection conn = DbConn.get();
+          String SQLS = "select userid, username, userpiclink, useraction from tinder  where useraction is null order by userid";
+          PreparedStatement stmt = conn.prepareStatement(SQLS);
+          ResultSet outcome = stmt.executeQuery();
+          ArrayList<User> data = new ArrayList<>();
+          while (outcome.next()) {
+              int id = outcome.getInt("userID");
+              String name=  outcome.getString("username");
+              String link= outcome.getString("userpiclink");
+              String action = outcome.getString("useraction");
+              User user = new User(id, name, link, action);
+              data.add(user);
+          }
+          return data;
+      }
+      catch (SQLException e) {
+          throw new RuntimeException("Smth went wrong getUser(id)", e);
+      }
+    }
+    public static List<User> getUserWithActionsLike() {
+        try {
+            Connection conn = DbConn.get();
+            String SQLS = "select userid, username, userpiclink, useraction from tinder  where useraction='yes' order by userid";
+            PreparedStatement stmt = conn.prepareStatement(SQLS);
+            ResultSet outcome = stmt.executeQuery();
+            ArrayList<User> data = new ArrayList<>();
+            while (outcome.next()) {
+                int id = outcome.getInt("userID");
+                String name=  outcome.getString("username");
+                String link= outcome.getString("userpiclink");
+                String action = outcome.getString("useraction");
+                User user = new User(id, name, link, action);
+                data.add(user);
+            }
+            return data;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Smth went wrong getUser(id)", e);
+        }
+    }
   public static void insert_op(int op1, int op2, String op, int result, int user) {
     try {
       Connection conn = DbConn.get();
