@@ -4,6 +4,7 @@ public class User {
   private int id;
   private String userName;
   private String userEmail;
+  private String userPassword;
   private String userImageLink;
   private String userAction;
 
@@ -15,6 +16,11 @@ public class User {
     this.userImageLink = link;
     this.userAction=action;
   }
+    public User(int id, String email, String password) {
+        this.id = id;
+        this.userEmail = email;
+        this.userPassword = password;
+    }
 
   public User(String name, String link) {
     this.userName = name;
@@ -32,6 +38,7 @@ public class User {
     return id;
   }
 
+
   public String getUserName() {
     return userName;
   }
@@ -42,7 +49,9 @@ public class User {
     return userEmail;
   }
 
-  public String getUserImageLink() {
+    public String getUserPassword() { return userPassword;}
+
+    public String getUserImageLink() {
     return userImageLink;
   }
 

@@ -148,6 +148,27 @@ public class DbOps {
             throw new RuntimeException("Smth went wrong getUser(id)", e);
         }
     }
+
+    public static List<User> getUserForLogin() {
+        try {
+            Connection conn = DbConn.get();
+            String SQLS = "select userid, useremail, userpassword from tinder order by userid";
+            PreparedStatement stmt = conn.prepareStatement(SQLS);
+            ResultSet outcome = stmt.executeQuery();
+            ArrayList<User> data = new ArrayList<>();
+            while (outcome.next()) {
+                int id = outcome.getInt("userID");
+                String email=  outcome.getString("useremail");
+                String password= outcome.getString("userpassword");
+                User user = new User(id, email, password);
+                data.add(user);
+            }
+            return data;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Smth went wrong getUser(id)", e);
+        }
+    }
   public static void insert_op(int op1, int op2, String op, int result, int user) {
     try {
       Connection conn = DbConn.get();
