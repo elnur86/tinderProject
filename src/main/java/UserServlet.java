@@ -2,6 +2,7 @@ import db.DbOps;
 import db.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,8 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-public class UserServlet extends HttpServlet {
+public class UserServlet extends HttpServlet{
 
     private final TemplateEngine te;
 
@@ -22,16 +24,39 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HashMap<String, Object> data = new HashMap<>();
-        List<User> users = DbOps.getUserWithNoActions();
-        if (!users.isEmpty()) {
-            data.put("userlink", users.get(0).getUserImageLink());
-            data.put("username", users.get(0).getUserName());
-            data.put("userid", users.get(0).getId());
+//---------------------------Checking for cookies----------------------------
+
+        Cookie[] cookies = req.getCookies();
+        Optional<Cookie> user = Optional.empty();
+        int userID=0;
+
+        if (cookies==null)
+        {
+            resp.sendRedirect("/login/*");
         }
-        else
-            resp.sendRedirect("/people/*");
-        te.render("like-page.html", data, resp);
+        for (Cookie c: cookies) {
+            if (c.getName().equals("myCookie")) {
+                user = Optional.of(c);
+                userID=  Integer.valueOf(c.getValue());
+            }
+        }
+//----------------------------------------------------------------------------
+
+         HashMap<String, Object> data = new HashMap<>();
+         List<User> users = DbOps.getUserWithNoActions();
+         User loggedUser=null;
+         for(User getLoggedUser: users)
+             if(getLoggedUser.getId()==userID)
+                 loggedUser=getLoggedUser;
+
+         users.remove(loggedUser);
+         if (!users.isEmpty()) {
+             data.put("userlink", users.get(0).getUserImageLink());
+             data.put("username", users.get(0).getUserName());
+             data.put("userid", users.get(0).getId());
+         } else
+             resp.sendRedirect("/people/*");
+         te.render("like-page.html", data, resp);
 
     }
     @Override

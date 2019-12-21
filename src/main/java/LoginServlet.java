@@ -2,6 +2,7 @@ import db.DbOps;
 import db.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,8 +43,16 @@ public class LoginServlet extends HttpServlet {
 
         List<User> users = DbOps.getUserForLogin();
         for(User eachUser: users){
-            if(eachUser.getUserEmail().equals(userEmail) && eachUser.getUserPassword().equals(userPass))
+            if(eachUser.getUserEmail().equals(userEmail) && eachUser.getUserPassword().equals(userPass)) {
                 System.out.printf("Welcome %s", userEmail);
+                System.out.println(eachUser.getId());
+                Cookie c = new Cookie("myCookie", Integer.toString(eachUser.getId()));
+                c.setPath("/");
+                System.out.println(c.getName());
+                System.out.println(c.getValue());
+                resp.addCookie(c);
+                resp.sendRedirect("/like/*");
+            }
             else
                 System.out.println("No such user exist");
         }

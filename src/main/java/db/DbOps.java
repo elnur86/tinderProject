@@ -49,6 +49,21 @@ public class DbOps {
     }
   }
 
+  public static void insertActionNew(int id1, int id2, String action){
+        try {
+            Connection conn = DbConn.get();
+            String SQLI = "update useraction set user1id=?, user2id=?, action=?";
+            PreparedStatement stmt = conn.prepareStatement(SQLI);
+            stmt.setInt(1, id1);
+            stmt.setInt(2, id2);
+            stmt.setString(3, action);
+
+            stmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException("Smth went wrong insertAction(id)", e);
+        }
+    }
+
   public static User getUser(int id) {
     try {
       Connection conn = DbConn.get();
